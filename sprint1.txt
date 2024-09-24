@@ -1,0 +1,91 @@
+ACTUALITE :
+
+1) SELECT cpti_pseudo, act_titre,act_date FROM tab_actualite_act;
+
+2) SELECT cpti_pseudo, act_titre, act_texte, act_date FROM tab_actualite_act WHERE act_id = ???;
+
+3) SELECT act_titre FROM tab_actualite_act ORDER BY act_date DESC LIMIT 5;
+
+4) SELECT act_titre FROM tab_actualite_act WHERE act_texte LIKE "%???%";
+
+5) SELECT act_titre FROM tab_actualite_act WHERE act_date = ??? AND act_pseudo = ???
+
+
+Concours :
+
+1) SELECT ccr_date,ccr_titre FROM tab_concours_ccr;
+
+2) SELECT tab_concours_ccr.cpti_pseudo AS organisateur, ccr_titre, ccr_date, ccr_dtefinaliste, cat_nom,nomphaseconcours(tab_concours_ccr.ccr_id) AS phase_concours,pfl_prenom,pfl_nom,pfl_discipline
+FROM tab_concours_ccr 
+JOIN tab_ccrcategorie_ccc USING (ccr_id)
+LEFT JOIN tab_ccrjury_ccj USING (ccr_id)
+LEFT JOIN tab_profil_pfl USING (pfl_id)
+
+3) SELECT ccr_titre, nomphaseconcours(ccr_id)
+FROM tab_concours_ccr
+WHERE ccr_date < CURDATE()
+
+4) SELECT ccr_titre, ccr_date FROM tab_concours_ccr WHERE ccr_date > CURDATE();
+
+5) SELECT * FROM tab_concours_crr WHERE ccr_id = ???;
+
+6) SELECT pfl_nom,pfl_prenom,pfl_mail,pfl_URL 
+FROM tab_concours_ccr
+JOIN tab_ccrjury_ccj USING (ccr_id)
+JOIN tab_profil_pfl USING (pfl_id)
+WHERE ccr_id = 1
+
+7) SELECT pfl_nom,pfl_prenom,pfl_mail,pfl_URL 
+FROM tab_concours_ccr
+JOIN tab_ccrjury_ccj USING (ccr_id)
+JOIN tab_profil_pfl USING (pfl_id)
+ORDER BY (pfl_discipline) ASC;
+
+8) SELECT cat_nom FROM tab_ccrcategorie_ccc WHERE ccr_id = 1
+
+9) SELECT pfl_nom,pfl_prenom,pfl_mail,pfl_URL,ccr_titre
+FROM tab_concours_ccr
+JOIN tab_compteorg_cpto USING (cpti_pseudo)
+JOIN tab_profil_pfl USING (cpti_pseudo)
+
+Inscription :
+
+1) SELECT count(*) FROM tab_candidature_cdt WHERE cdt_codeinscription = ??? AND cdt_codeidentification = ???
+
+POUR LA 2, LA FONCTION "verification" QUI UTILISE LA REQUETE DU 1 EST PRISE
+
+2) SET @inscription='S4vH4RcimgRDKr8dAoVv';
+SET @identification='fws6NPUY';
+SET @verif = (verificationcandidat(@inscription,@identification));
+
+SELECT * 
+FROM tab_candidature_cdt 
+WHERE cdt_codeinscription = @inscription 
+AND cdt_codeidentification = @identification
+AND @verif=1;
+
+Profil :
+
+1) SELECT * FROM tab_profil_pfl ORDER BY pfl_statut;
+
+2) SELECT count(*) FROM tab_compteinfo_cpti WHERE cpti_pseudo = ??? AND cpti_password = ???;
+
+POUR LA 3 et 4, LA FONCTION "verificationcompte" QUI UTILISE LA REQUETE DU 2 EST PRISE
+
+3) SET @pseudo="CharlesH";
+SET @mdp="c52071294f899907b3e2ccea671dcef0a2c0f88cb7eca55825df66dab9a26a80";
+SET @verif = (verificationcompte(@pseudo,@mdp));
+
+SELECT * 
+FROM tab_profil_pfl
+WHERE cpti_pseudo = @pseudo
+AND @verif = 1;
+
+
+4) SET @pseudo="CharlesH";
+SET @mdp="c52071294f899907b3e2ccea671dcef0a2c0f88cb7eca55825df66dab9a26a80";
+SET @verif = (verificationcompte(@pseudo,@mdp));
+
+UPDATE tab_compteinfo_cpti SET cpti_pseudo = "test" WHERE cpti_pseudo = "CharlesH" AND @verif = 1;
+
+5) INSERT INTO tab_profil_pfl VALUES (NULL,???,???,???,???,???,???,???,???,'A')

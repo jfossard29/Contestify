@@ -1,0 +1,57 @@
+---------------------------
+
+dernier concours()
+
+BEGIN
+ RETURN (SELECT MAX(ccr_id) FROM tab_concours_ccr);
+END;
+
+----------------------------
+
+nomphaseconcours(IN ID)
+BEGIN
+SET @retour = (SELECT 
+CASE
+	   WHEN CURDATE() <= ccr_date THEN 'A venir'
+       WHEN CURDATE() <= ccr_dteinscription THEN 		'Inscription'
+       WHEN CURDATE() <= ccr_dtepreselection THEN 		 'selection'
+       WHEN CURDATE() <= ccr_dtefinaliste THEN
+       'finale'
+       WHEN CURDATE() >= ccr_dtefinaliste THEN 		   'terminée'
+END AS phase_actuelle
+FROM tab_concours_ccr
+WHERE ccr_id = ID);
+
+RETURN @retour;
+END
+
+-----------------------------
+
+verificationcandidat(IN codeinscription,codeindentification)
+
+BEGIN
+RETURN (SELECT count(*) 
+    FROM tab_candidature_cdt
+    WHERE cdt_codeinscription = inscription 
+    AND cdt_codeidentification = identification);
+END
+
+----------------------------
+
+verificationcompte(IN pseudo, mdp)
+
+BEGIN
+RETURN (SELECT count(*) FROM tab_compteinfo_cpti WHERE cpti_pseudo =pseudo AND cpti_password = mdp);
+END
+
+----------------------------
+
+Actualitedernierconcours()
+
+BEGIN
+ SET @organisateur = (SELECT cpti_pseudo FROM tab_compteorg_cpto JOIN tab_concours_ccr USING (cpti_pseudo) WHERE ccr_id = dernierconcours());
+ SET @titre = (SELECT ccr_titre FROM tab_concours_ccr WHERE ccr_id = dernierconcours());
+ SET @date = (SELECT ccr_date FROM tab_concours_ccr WHERE ccr_id = dernierconcours());
+ SET @texte = CONCAT("Le concours ",@titre,", commencera le ",DATE_FORMAT(@date, '%d/%m/%Y'), "...","Retrouvez toutes les informations bientôt");
+ INSERT INTO tab_actualite_act VALUES(NULL,@organisateur,@texte,CURDATE(),"C");
+END

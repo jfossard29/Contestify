@@ -1,0 +1,31 @@
+Admin :
+	organisateur = org23*TSETNOC
+	StephenK = testA
+	LucieV = P56saBd! (fermé -> inacessible)
+	NicolasR = Vovi74Copd
+	RozennD = cqfd1971 (fermé -> inacessible)
+
+Jury :
+	TitouanG = 1234mdp  (3 concours, dont 1 en selection, 7 inscrits)
+	JustineM = PmvD45 (2 concours terminés)
+	CharlesH = mdp1234password (fermé -> inaccessible)
+	SashaG = vmfd5585 (fermé -> inacessible)
+	JosephA = JA23! (aucun concours)
+
+concours :
+	Objectif mars : 7 inscrits
+ 	Fin du monde : 4 inscrits
+	I m a steampunk : 7 inscrits
+	Le futur... : Pas d’inscrits
+ 	l’idée des rêves : pas d’inscrits
+
+Candidatures :
+
+	A1qS5eR8wF6hT4mG3y // R4hK6mE9
+	Kim Sarah (inscrit Fin du monde, 3 documents serveurs)
+	
+	4oyvpwt4NFOjUWOMM0V4  // PT7SvSrz
+	Mohammed Abdel (inscrit Concours Junior, pas de cocuments)
+
+
+Ces tests sont valide pour La V2. La V1 risque de présenter des erreurs.
